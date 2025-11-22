@@ -2,6 +2,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdint.h>
+#include "lualib.h"
+// 修复 u_char
+#ifdef __APPLE__
+#ifndef u_char
+#define u_char unsigned char
+#endif
+#endif
+
+
 #include <string.h>
 
 #include <lua.h>
@@ -778,7 +788,7 @@ lua_State *init_lua_env()
     const char *errmsg;
     int         rc;
 
-    L = lua_open();
+    L = luaL_newstate();
     luaL_openlibs( L );
 
     rc = luaL_dofile( L, fn );
